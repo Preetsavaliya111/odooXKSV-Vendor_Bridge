@@ -1,6 +1,90 @@
-postgres/
-*.pyc
+# Python
 __pycache__/
+*.py[codz]
+*$py.class
+*.so
+
+# Build / Distribution
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.env
+.envrc
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
 .vscode/
 .idea/
+
+# OS Files
 .DS_Store
+Thumbs.db
+
+# Logs
+*.log
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Testing / Coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+.hypothesis/
+coverage.xml
+nosetests.xml
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Type Checkers
+.mypy_cache/
+.pyre/
+.pytype/
+.ruff_cache/
+
+# Odoo
+odoo-data/
+filestore/
+
+# PostgreSQL / Docker
+postgres/
+postgres-data/
+pgdata/
+
+# Docker
+*.pid
+
+# Node
+node_modules/
+
+# Temporary Files
+tempCodeRunnerFile.py
+
+# Streamlit
+.streamlit/secrets.toml
