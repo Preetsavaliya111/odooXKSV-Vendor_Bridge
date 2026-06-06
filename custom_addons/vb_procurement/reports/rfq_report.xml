@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_rfq_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>RFQ: <t t-esc="doc.name"/></h2>
+
+                    <p><strong>Deadline:</strong> <t t-esc="doc.deadline"/></p>
+                    <p><strong>Status:</strong> <t t-esc="doc.state"/></p>
+
+                    <h3>Vendors</h3>
+                    <ul>
+                        <t t-foreach="doc.vendor_ids" t-as="v">
+                            <li><t t-esc="v.name"/></li>
+                        </t>
+                    </ul>
+
+                    <h3>Quotations</h3>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Vendor</th>
+                            <th>Price</th>
+                            <th>Delivery</th>
+                        </tr>
+                        <t t-foreach="doc.quotation_ids" t-as="q">
+                            <tr>
+                                <td><t t-esc="q.vendor_id.name"/></td>
+                                <td><t t-esc="q.price"/></td>
+                                <td><t t-esc="q.delivery_days"/></td>
+                            </tr>
+                        </t>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+        <record id="action_report_rfq" model="ir.actions.report">
+            <field name="name">RFQ Report</field>
+            <field name="model">vb.rfq</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">vb_procurement.report_rfq_document</field>
+            <field name="report_file">vb_procurement.report_rfq_document</field>
+            <field name="print_report_name">'RFQ - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_vb_rfq"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

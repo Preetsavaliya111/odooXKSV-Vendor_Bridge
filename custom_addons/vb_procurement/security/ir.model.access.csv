@@ -3,3 +3,4 @@ access_vb_vendor,vb.vendor,model_vb_vendor,base.group_user,1,1,1,1
 access_vb_vendor_category,vb.vendor.category,model_vb_vendor_category,base.group_user,1,1,1,1
 access_vb_rfq,vb.rfq,model_vb_rfq,base.group_user,1,1,1,1
 access_vb_quotation,vb.quotation,model_vb_quotation,base.group_user,1,1,1,1
+access_vb_purchase_order,vb.purchase.order,model_vb_purchase_order,base.group_user,1,1,1,1

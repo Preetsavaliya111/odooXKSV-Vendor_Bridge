@@ -1,34 +1,42 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "vb_procurement",
+    'name': 'VendorBridge Procurement ERP',
 
-    'summary': "Short (1 phrase/line) summary of the module's purpose",
+    'summary': 'Procurement and Vendor Management ERP',
 
     'description': """
-Long description of module's purpose
-    """,
+VendorBridge Procurement ERP
 
-    'author': "My Company",
-    'website': "https://www.yourcompany.com",
+Features:
+- Vendor Management
+- Vendor Categories
+- RFQ Management
+- Quotation Management
+- Quotation Comparison
+- Purchase Orders
+- Invoice Generation
+- Approval Workflow
+- Procurement Analytics
+""",
 
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
-    'category': 'Uncategorized',
-    'version': '0.1',
+    'author': 'XKSV Team',
+    'website': 'https://github.com/Preetsavaliya111/odooXKSV-Vendor_Bridge',
 
-    # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'category': 'Purchases',
+    'version': '1.0.0',
 
-    # always loaded
-   'data': [
-    'security/ir.model.access.csv',
-    'views/views.xml',
-    'views/templates.xml',
-],
-    # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-    ],
+    'license': 'LGPL-3',
+
+    'depends': ['base', 'mail'],
+
+    'data': [
+        'security/ir.model.access.csv',
+        'data/sequence.xml',
+        'reports/rfq_report.xml',
+        'views/views.xml',
+        'views/templates.xml',
+        'security/groups.xml',
+    ],  
+
+    'demo': [],
 }
-

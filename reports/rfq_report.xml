@@ -1,0 +1,38 @@
+<odoo>
+
+    <report
+        id="rfq_report"
+        model="vb.rfq"
+        string="RFQ Report"
+        report_type="qweb-pdf"
+        name="vb_procurement.rfq_report_template"
+        file="vb_procurement.rfq_report_template"
+    />
+
+    <template id="rfq_report_template">
+        <t t-call="web.external_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+
+                    <h2>RFQ Report</h2>
+
+                    <p><b>Name:</b> <t t-esc="o.name"/></p>
+                    <p><b>Status:</b> <t t-esc="o.state"/></p>
+                    <p><b>Deadline:</b> <t t-esc="o.deadline"/></p>
+
+                    <h3>Quotations</h3>
+
+                    <t t-foreach="o.quotation_ids" t-as="q">
+                        <p>
+                            Vendor: <t t-esc="q.vendor_id.name"/> |
+                            Price: <t t-esc="q.price"/> |
+                            Delivery: <t t-esc="q.delivery_days"/>
+                        </p>
+                    </t>
+
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

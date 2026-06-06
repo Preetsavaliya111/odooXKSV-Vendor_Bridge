@@ -1,20 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <odoo>
 
-```
-<!-- Root Menu -->
+<!-- ========================= -->
+<!-- ROOT MENU -->
+<!-- ========================= -->
 <menuitem id="vb_procurement_root_menu"
           name="VendorBridge"
           sequence="10"/>
 
-<!-- Vendors Menu -->
+<!-- ========================= -->
+<!-- DASHBOARD (NEW) -->
+<!-- ========================= -->
+<record id="vb_dashboard_view" model="ir.ui.view">
+    <field name="name">vb.dashboard.form</field>
+    <field name="model">vb.dashboard</field>
+    <field name="arch" type="xml">
+        <form string="VendorBridge Dashboard">
+            <sheet>
+
+                <div class="oe_title">
+                    <h1>VendorBridge Control Center</h1>
+                </div>
+
+                <group>
+                    <field name="total_rfq"/>
+                    <field name="approved_rfq"/>
+                    <field name="pending_rfq"/>
+                    <field name="total_vendors"/>
+                </group>
+
+                <div style="margin-top:20px;">
+                    <h3>System Status</h3>
+                    <p>✔ RFQ Flow Active</p>
+                    <p>✔ Vendor Network Ready</p>
+                    <p>✔ Procurement Engine Running</p>
+                </div>
+
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="vb_dashboard_action" model="ir.actions.act_window">
+    <field name="name">Dashboard</field>
+    <field name="res_model">vb.dashboard</field>
+    <field name="view_mode">form</field>
+</record>
+
+<menuitem id="vb_dashboard_menu"
+          name="Dashboard"
+          parent="vb_procurement_root_menu"
+          action="vb_dashboard_action"
+          sequence="0"/>
+
+<!-- ========================= -->
+<!-- VENDORS -->
+<!-- ========================= -->
 <menuitem id="vb_vendor_menu"
           name="Vendors"
           parent="vb_procurement_root_menu"
           sequence="1"/>
 
-<!-- Vendor List View -->
 <record id="vb_vendor_tree_view" model="ir.ui.view">
     <field name="name">vb.vendor.tree</field>
     <field name="model">vb.vendor</field>
@@ -28,7 +74,6 @@
     </field>
 </record>
 
-<!-- Vendor Form View -->
 <record id="vb_vendor_form_view" model="ir.ui.view">
     <field name="name">vb.vendor.form</field>
     <field name="model">vb.vendor</field>
@@ -47,7 +92,6 @@
     </field>
 </record>
 
-<!-- Vendor Action -->
 <record id="vb_vendor_action" model="ir.actions.act_window">
     <field name="name">Vendors</field>
     <field name="res_model">vb.vendor</field>
@@ -58,8 +102,9 @@
           parent="vb_vendor_menu"
           action="vb_vendor_action"/>
 
-<!-- Categories -->
-
+<!-- ========================= -->
+<!-- CATEGORIES -->
+<!-- ========================= -->
 <record id="vb_vendor_category_tree_view" model="ir.ui.view">
     <field name="name">vb.vendor.category.tree</field>
     <field name="model">vb.vendor.category</field>
@@ -98,7 +143,27 @@
           action="vb_vendor_category_action"
           sequence="2"/>
 
-<!-- RFQs -->
+<!-- ========================= -->
+<!-- RFQ -->
+<!-- ========================= -->
+
+<record id="vb_rfq_kanban_view" model="ir.ui.view">
+    <field name="name">vb.rfq.kanban</field>
+    <field name="model">vb.rfq</field>
+    <field name="arch" type="xml">
+        <kanban>
+            <templates>
+                <t t-name="card">
+                    <div class="oe_kanban_global_click">
+                        <strong><field name="name"/></strong>
+                        <div>State: <field name="state"/></div>
+                        <div>Deadline: <field name="deadline"/></div>
+                    </div>
+                </t>
+            </templates>
+        </kanban>
+    </field>
+</record>
 
 <record id="vb_rfq_tree_view" model="ir.ui.view">
     <field name="name">vb.rfq.tree</field>
@@ -112,44 +177,96 @@
     </field>
 </record>
 
+<!-- ========================= -->
+<!-- RFQ FORM (UPGRADED UX) -->
+<!-- ========================= -->
 <record id="vb_rfq_form_view" model="ir.ui.view">
     <field name="name">vb.rfq.form</field>
     <field name="model">vb.rfq</field>
     <field name="arch" type="xml">
+
         <form>
+
+            <header>
+
+                <button name="action_send_to_vendors"
+                        type="object"
+                        string="Send"
+                        class="btn-primary"/>
+
+                <button name="action_compute_best_quote"
+                        type="object"
+                        string="Compute"
+                        class="btn-info"/>
+
+                <button name="action_approve_rfq"
+                        type="object"
+                        string="Approve"
+                        class="btn-success"/>
+
+                <button name="action_reject_rfq"
+                        type="object"
+                        string="Reject"
+                        class="btn-danger"/>
+
+                <button name="action_create_purchase_order"
+                        type="object"
+                        string="Create PO"
+                        class="btn-warning"/>
+
+                <button name="action_print_rfq"
+                        type="object"
+                        string="Print RFQ"
+                        class="btn-secondary"/>
+
+                <field name="state" widget="statusbar"/>
+            </header>
+
             <sheet>
 
-                <group>
-                    <field name="name"/>
-                    <field name="description"/>
-                    <field name="deadline"/>
-                    <field name="vendor_ids" widget="many2many_tags"/>
-                </group>
-
-                <group string="Quotations">
-                    <field name="quotation_ids">
-                        <list>
-                            <field name="vendor_id"/>
-                            <field name="price"/>
-                            <field name="delivery_days"/>
-                            <field name="state"/>
-                        </list>
-                    </field>
-                </group>
+                <div class="oe_title">
+                    <h1><field name="name"/></h1>
+                </div>
 
                 <group>
                     <field name="state"/>
+                    <field name="best_vendor_id" readonly="1"/>
                 </group>
+
+                <notebook>
+
+                    <page string="RFQ Details">
+                        <group>
+                            <field name="description"/>
+                            <field name="deadline"/>
+                            <field name="vendor_ids" widget="many2many_tags"/>
+                        </group>
+                    </page>
+
+                    <page string="Quotations">
+                        <field name="quotation_ids">
+                            <list editable="bottom">
+                                <field name="vendor_id"/>
+                                <field name="price"/>
+                                <field name="delivery_days"/>
+                                <field name="state"/>
+                                <field name="is_best_price"/>
+                            </list>
+                        </field>
+                    </page>
+
+                </notebook>
 
             </sheet>
         </form>
+
     </field>
 </record>
 
 <record id="vb_rfq_action" model="ir.actions.act_window">
     <field name="name">RFQs</field>
     <field name="res_model">vb.rfq</field>
-    <field name="view_mode">list,form</field>
+    <field name="view_mode">kanban,list,form</field>
 </record>
 
 <menuitem id="vb_rfq_menu"
@@ -158,7 +275,9 @@
           action="vb_rfq_action"
           sequence="3"/>
 
-<!-- Quotations -->
+<!-- ========================= -->
+<!-- QUOTATIONS -->
+<!-- ========================= -->
 
 <record id="vb_quotation_tree_view" model="ir.ui.view">
     <field name="name">vb.quotation.tree</field>
@@ -206,6 +325,52 @@
           parent="vb_procurement_root_menu"
           action="vb_quotation_action"
           sequence="4"/>
-```
+
+<!-- ========================= -->
+<!-- PURCHASE ORDERS -->
+<!-- ========================= -->
+
+<record id="vb_po_tree_view" model="ir.ui.view">
+    <field name="name">vb.purchase.order.tree</field>
+    <field name="model">vb.purchase.order</field>
+    <field name="arch" type="xml">
+        <list>
+            <field name="name"/>
+            <field name="vendor_id"/>
+            <field name="amount"/>
+            <field name="state"/>
+        </list>
+    </field>
+</record>
+
+<record id="vb_po_form_view" model="ir.ui.view">
+    <field name="name">vb.purchase.order.form</field>
+    <field name="model">vb.purchase.order</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="quotation_id"/>
+                    <field name="vendor_id" readonly="1"/>
+                    <field name="amount" readonly="1"/>
+                    <field name="state"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="vb_po_action" model="ir.actions.act_window">
+    <field name="name">Purchase Orders</field>
+    <field name="res_model">vb.purchase.order</field>
+    <field name="view_mode">list,form</field>
+</record>
+
+<menuitem id="vb_po_menu"
+          name="Purchase Orders"
+          parent="vb_procurement_root_menu"
+          action="vb_po_action"
+          sequence="5"/>
 
 </odoo>

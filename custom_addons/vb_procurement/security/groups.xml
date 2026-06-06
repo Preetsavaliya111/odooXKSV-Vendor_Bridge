@@ -1,0 +1,11 @@
+<odoo>
+
+    <record id="group_rfq_manager" model="res.groups">
+        <field name="name">RFQ Manager</field>
+    </record>
+
+    <record id="group_vendor_user" model="res.groups">
+        <field name="name">Vendor User</field>
+    </record>
+
+</odoo>
