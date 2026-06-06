@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+```
+<!-- Root Menu -->
+<menuitem id="vb_procurement_root_menu"
+          name="VendorBridge"
+          sequence="10"/>
+
+<!-- Vendors Menu -->
+<menuitem id="vb_vendor_menu"
+          name="Vendors"
+          parent="vb_procurement_root_menu"
+          sequence="1"/>
+
+<!-- Vendor List View -->
+<record id="vb_vendor_tree_view" model="ir.ui.view">
+    <field name="name">vb.vendor.tree</field>
+    <field name="model">vb.vendor</field>
+    <field name="arch" type="xml">
+        <list>
+            <field name="name"/>
+            <field name="email"/>
+            <field name="gst_number"/>
+            <field name="category_id"/>
+        </list>
+    </field>
+</record>
+
+<!-- Vendor Form View -->
+<record id="vb_vendor_form_view" model="ir.ui.view">
+    <field name="name">vb.vendor.form</field>
+    <field name="model">vb.vendor</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="email"/>
+                    <field name="gst_number"/>
+                    <field name="category_id"/>
+                    <field name="active"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<!-- Vendor Action -->
+<record id="vb_vendor_action" model="ir.actions.act_window">
+    <field name="name">Vendors</field>
+    <field name="res_model">vb.vendor</field>
+    <field name="view_mode">list,form</field>
+</record>
+
+<menuitem id="vb_vendor_action_menu"
+          parent="vb_vendor_menu"
+          action="vb_vendor_action"/>
+
+<!-- Categories -->
+
+<record id="vb_vendor_category_tree_view" model="ir.ui.view">
+    <field name="name">vb.vendor.category.tree</field>
+    <field name="model">vb.vendor.category</field>
+    <field name="arch" type="xml">
+        <list>
+            <field name="name"/>
+            <field name="active"/>
+        </list>
+    </field>
+</record>
+
+<record id="vb_vendor_category_form_view" model="ir.ui.view">
+    <field name="name">vb.vendor.category.form</field>
+    <field name="model">vb.vendor.category</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="active"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="vb_vendor_category_action" model="ir.actions.act_window">
+    <field name="name">Categories</field>
+    <field name="res_model">vb.vendor.category</field>
+    <field name="view_mode">list,form</field>
+</record>
+
+<menuitem id="vb_vendor_category_menu"
+          name="Categories"
+          parent="vb_procurement_root_menu"
+          action="vb_vendor_category_action"
+          sequence="2"/>
+
+<!-- RFQs -->
+
+<record id="vb_rfq_tree_view" model="ir.ui.view">
+    <field name="name">vb.rfq.tree</field>
+    <field name="model">vb.rfq</field>
+    <field name="arch" type="xml">
+        <list>
+            <field name="name"/>
+            <field name="deadline"/>
+            <field name="state"/>
+        </list>
+    </field>
+</record>
+
+<record id="vb_rfq_form_view" model="ir.ui.view">
+    <field name="name">vb.rfq.form</field>
+    <field name="model">vb.rfq</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+
+                <group>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="deadline"/>
+                    <field name="vendor_ids" widget="many2many_tags"/>
+                </group>
+
+                <group string="Quotations">
+                    <field name="quotation_ids">
+                        <list>
+                            <field name="vendor_id"/>
+                            <field name="price"/>
+                            <field name="delivery_days"/>
+                            <field name="state"/>
+                        </list>
+                    </field>
+                </group>
+
+                <group>
+                    <field name="state"/>
+                </group>
+
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="vb_rfq_action" model="ir.actions.act_window">
+    <field name="name">RFQs</field>
+    <field name="res_model">vb.rfq</field>
+    <field name="view_mode">list,form</field>
+</record>
+
+<menuitem id="vb_rfq_menu"
+          name="RFQs"
+          parent="vb_procurement_root_menu"
+          action="vb_rfq_action"
+          sequence="3"/>
+
+<!-- Quotations -->
+
+<record id="vb_quotation_tree_view" model="ir.ui.view">
+    <field name="name">vb.quotation.tree</field>
+    <field name="model">vb.quotation</field>
+    <field name="arch" type="xml">
+        <list>
+            <field name="rfq_id"/>
+            <field name="vendor_id"/>
+            <field name="price"/>
+            <field name="delivery_days"/>
+            <field name="is_best_price"/>
+            <field name="state"/>
+        </list>
+    </field>
+</record>
+
+<record id="vb_quotation_form_view" model="ir.ui.view">
+    <field name="name">vb.quotation.form</field>
+    <field name="model">vb.quotation</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                    <field name="rfq_id"/>
+                    <field name="vendor_id"/>
+                    <field name="price"/>
+                    <field name="delivery_days"/>
+                    <field name="notes"/>
+                    <field name="is_best_price"/>
+                    <field name="state"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="vb_quotation_action" model="ir.actions.act_window">
+    <field name="name">Quotations</field>
+    <field name="res_model">vb.quotation</field>
+    <field name="view_mode">list,form</field>
+</record>
+
+<menuitem id="vb_quotation_menu"
+          name="Quotations"
+          parent="vb_procurement_root_menu"
+          action="vb_quotation_action"
+          sequence="4"/>
+```
+
+</odoo>

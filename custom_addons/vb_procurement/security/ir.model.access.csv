@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vb_vendor,vb.vendor,model_vb_vendor,base.group_user,1,1,1,1
+access_vb_vendor_category,vb.vendor.category,model_vb_vendor_category,base.group_user,1,1,1,1
+access_vb_rfq,vb.rfq,model_vb_rfq,base.group_user,1,1,1,1
+access_vb_quotation,vb.quotation,model_vb_quotation,base.group_user,1,1,1,1
